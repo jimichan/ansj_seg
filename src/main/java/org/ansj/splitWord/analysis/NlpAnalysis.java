@@ -67,7 +67,7 @@ public class NlpAnalysis extends Analysis {
 					if (word.length() < 2 || DATDictionary.isInSystemDic(word) || WordAlert.isRuleWord(word)) {
 						continue;
 					}
-					if(skipMaxCrfWord!=-1 && word.length() > skipMaxCrfWord){
+					if(skipMaxCrfWord!=-1 && word.length() >= skipMaxCrfWord){
 						continue; //比如设置4，那么大于4的词被忽略，用于特殊不需要发现过长的合成词的需求
 					}
 					learn.addTerm(new NewWord(word, NatureLibrary.getNature("nw")));
