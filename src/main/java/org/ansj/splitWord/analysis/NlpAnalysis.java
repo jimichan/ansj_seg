@@ -33,6 +33,8 @@ public class NlpAnalysis extends Analysis {
 	private LearnTool learn = null;
 
 	private static final SplitWord DEFAULT_SLITWORD = MyStaticValue.getCRFSplitWord();
+	
+	private int skipMaxCrfWord = -1;//crf分词可以设置大于等于这个长度就进行忽略
 
 	@Override
 	protected List<Term> getResult(final Graph graph) {
@@ -64,6 +66,9 @@ public class NlpAnalysis extends Analysis {
 				for (String word : words) {
 					if (word.length() < 2 || DATDictionary.isInSystemDic(word) || WordAlert.isRuleWord(word)) {
 						continue;
+					}
+					if(skipMaxCrfWord!=-1 && word.length() > skipMaxCrfWord){
+						continue; //比如设置4，那么大于4的词被忽略，用于特殊不需要发现过长的合成词的需求
 					}
 					learn.addTerm(new NewWord(word, NatureLibrary.getNature("nw")));
 				}
@@ -148,5 +153,13 @@ public class NlpAnalysis extends Analysis {
 
 	public static List<Term> parse(String str, LearnTool learn, Forest... forests) {
 		return new NlpAnalysis(learn, forests).parseStr(str);
+	}
+
+	public int getSkipMaxCrfWord() {
+		return skipMaxCrfWord;
+	}
+
+	public void setSkipMaxCrfWord(int skipMaxCrfWord) {
+		this.skipMaxCrfWord = skipMaxCrfWord;
 	}
 }
