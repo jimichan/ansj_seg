@@ -27,11 +27,10 @@ public class IndexAnalysisTest {
 //		
 //		System.out.println(IndexAnalysis.parse("季德胜蛇药片"));
 //
-		UserDefineLibrary.insertWord("蛇药片", "n", 1000);
+		UserDefineLibrary.insertWord("面包新语", "n", 1000);
 		
-		System.out.println(IndexAnalysis.parse("季德胜蛇药片10片*6板 清热"));
+		System.out.println(IndexAnalysis.parse("面包新语"));
 
-		System.out.println(ToAnalysis.parse("季德胜蛇药片"));
 //		System.out.println(IndexAnalysis.parse("季德胜蛇药片"));
 //		
 //		System.out.println(IndexAnalysis.parse("鲁花一级花生油"));

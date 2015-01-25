@@ -48,7 +48,7 @@ public class Term implements Comparable<Term> {
 		this.name = name;
 		this.offe = offe;
 		this.termNatures = termNatures;
-		if (termNatures.nature != null) {
+		if (termNatures!=null&&termNatures.nature != null) {
 			this.nature = termNatures.nature;
 		}
 	}
