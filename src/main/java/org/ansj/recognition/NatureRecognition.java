@@ -65,7 +65,9 @@ public class NatureRecognition {
 			// 获得词性 ， 先从系统辞典。在从用户自定义辞典
 			AnsjItem ansjItem = DATDictionary.getItem(word);
 			TermNatures tn = null;
-			if (ansjItem.termNatures != TermNatures.NULL) {
+			if(ansjItem.termNatures==null){
+				tn = TermNatures.NULL ;
+			}else if (ansjItem.termNatures != TermNatures.NULL) {
 				tn = ansjItem.termNatures;
 			} else if ((params = UserDefineLibrary.getParams(word)) != null) {
 				tn = new TermNatures(new TermNature(params[0], 1));
