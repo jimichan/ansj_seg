@@ -25,6 +25,8 @@ import org.nlpcn.commons.lang.tire.domain.Forest;
  * 
  */
 public class IndexAnalysis extends Analysis {
+	
+	public boolean splitSmallWords = true;
 
 	@Override
 	protected List<Term> getResult(final Graph graph) {
@@ -51,17 +53,12 @@ public class IndexAnalysis extends Analysis {
 				}
 
 				// 用户自定义词典的识别
-				userDefineRecognition(graph, forests);
-
-				return result();
-			}
-
-			private void userDefineRecognition(final Graph graph, Forest... forests) {
 				new UserDefineRecognition(graph.terms, forests).recognition();
 				graph.rmLittlePath();
 				graph.walkPathByScore();
-			}
 
+				return result();
+			}
 
 			/**
 			 * 检索的分词
@@ -81,19 +78,21 @@ public class IndexAnalysis extends Analysis {
 					}
 				}
 
-				LinkedList<Term> last = new LinkedList<Term>() ;
-				for (Term term : result) {
-					if (term.getName().length() >= 3) {
-						GetWordsImpl gwi = new GetWordsImpl(term.getName());
-						while ((temp = gwi.allWords()) != null) {
-							if (temp.length() < term.getName().length() && temp.length()>1) {
-								last.add(new Term(temp, gwi.offe + term.getOffe(), TermNatures.NULL));
+				if(splitSmallWords){
+					LinkedList<Term> last = new LinkedList<Term>() ;
+					for (Term term : result) {
+						if (term.getName().length() >= 3) {
+							GetWordsImpl gwi = new GetWordsImpl(term.getName());
+							while ((temp = gwi.allWords()) != null) {
+								if (temp.length() < term.getName().length() && temp.length()>1) {
+									last.add(new Term(temp, gwi.offe + term.getOffe(), TermNatures.NULL));
+								}
 							}
 						}
 					}
+					
+					result.addAll(last) ;
 				}
-
-				result.addAll(last) ;
 				
 				setRealName(graph, result);
 				return result;
