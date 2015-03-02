@@ -27,9 +27,9 @@ public class IndexAnalysisTest {
 //		
 //		System.out.println(IndexAnalysis.parse("季德胜蛇药片"));
 //
-		UserDefineLibrary.insertWord("面包新语", "n", 1000);
+	//	UserDefineLibrary.insertWord("面包新语", "n", 1000);
 		
-		System.out.println(IndexAnalysis.parse("面包新语"));
+		System.out.println(IndexAnalysis.parse("中华人民共和国"));
 
 //		System.out.println(IndexAnalysis.parse("季德胜蛇药片"));
 //		
