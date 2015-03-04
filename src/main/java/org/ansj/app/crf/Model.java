@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -22,7 +23,7 @@ import org.ansj.app.crf.pojo.Template;
 import org.nlpcn.commons.lang.tire.domain.SmartForest;
 
 public abstract class Model {
-
+	
 	public static enum MODEL_TYPE {
 		CRF, EMM
 	};
@@ -102,6 +103,42 @@ public abstract class Model {
 		oos.close();
 
 	}
+	
+	public void writeModelByte2(String path) throws FileNotFoundException, IOException {
+
+		// 写模型
+		GZIPOutputStream out = new GZIPOutputStream(new FileOutputStream(path),64*1024);
+		
+		// 配置模板
+		{
+			byte[] row = template.toByte();
+			int len = row.length;
+			Bits.writeInt(len, out);
+			out.write(row);
+		}
+		
+		// 特征转移率
+		{
+			Bits.writeDoubleArray(status, out);
+		}
+		
+		// 总共的特征数
+		Bits.writeInt(myGrad.size(), out);
+		
+		for (Entry<String, Feature> entry : myGrad.entrySet()) {
+			byte[] keybytes = entry.getKey().getBytes("utf-8");
+			Bits.writeInt(keybytes.length, out);
+			out.write(keybytes);
+			
+			double[][] w = entry.getValue().w;
+			Bits.writeDoubleArray(w, out);
+		}
+
+		out.flush();
+		out.finish();
+		out.close();
+	}
+	
 
 	/**
 	 * 模型读取
@@ -144,7 +181,7 @@ public abstract class Model {
 			model.smartForest = new SmartForest<double[][]>(0.8);
 
 			model.status = (double[][]) ois.readObject();
-
+			model.myGrad = new HashMap<String, Feature>();
 			// 总共的特征数
 			double[][] w = null;
 			String key = null;
@@ -162,6 +199,8 @@ public abstract class Model {
 					}
 				}
 				model.smartForest.add(key, w);
+				//需要写模型的时候解开
+				//model.myGrad.put(key, new Feature(w));
 			}
 
 			return model;

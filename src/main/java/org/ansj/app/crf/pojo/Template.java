@@ -1,7 +1,11 @@
 package org.ansj.app.crf.pojo;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -30,6 +34,33 @@ public class Template implements Serializable {
 	public int tagNum;
 
 	public Map<String, Integer> statusMap;
+	
+	public byte[] toByte() throws IOException{
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		ObjectOutputStream writer = new ObjectOutputStream(out);
+		
+		writer.writeInt(left);
+		writer.writeInt(right);
+		writer.writeObject(ft);
+		writer.writeInt(tagNum);
+		writer.writeObject(statusMap);
+		writer.flush();
+		out.flush();
+		return out.toByteArray();
+	}
+	
+	public static Template fromByte(byte[] bytes) throws IOException, ClassNotFoundException{
+		ByteArrayInputStream in = new ByteArrayInputStream(bytes);
+		ObjectInputStream reader = new ObjectInputStream(in);
+		
+		Template tem = new Template();
+		tem.left = reader.readInt();
+		tem.right = reader.readInt();
+		tem.ft = (int[][]) reader.readObject();
+		tem.tagNum = reader.readInt();
+		tem.statusMap = (Map<String, Integer>) reader.readObject();
+		return tem;
+	}
 
 	/**
 	 * 解析配置文件
