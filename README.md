@@ -18,31 +18,26 @@ Ansj中文分词
 
 
 #####  下载jar
-* 访问 [http://maven.ansj.org/org/ansj/](http://maven.ansj.org/org/ansj/) 最好下载最新版 ansj_seg/
-  * 如果你用的是1.x版本需要下载[tree_split.jar](http://maven.ansj.org/org/ansj/tree_split/)。
-  * 如果你用的是2.x版本需要下载[nlp-lang.jar](http://maven.ansj.org/org/nlpcn/nlp-lang/)
+* 访问 [http://maven.nlpcn.org/org/ansj/](http://maven.nlpcn.org/org/ansj/) 最好下载最新版 ansj_seg/
+  * 如果你用的是1.x版本需要下载[tree_split.jar](http://maven.nlpcn.org/org/ansj/tree_split/)。
+  * 如果你用的是2.x版本需要下载[nlp-lang.jar](http://maven.nlpcn.org/org/nlpcn/nlp-lang/)
 * 导入到eclipse ，开始你的程序吧
 
 
 #####  maven
-* 第一步在你的pom.xml中加入.
+1.  使用git下载本项目：
 
-````
-  <project...>
-    ....
+```
+git clone https://github.com/NLPchina/ansj_seg
+```
 
-    <repositories>
-        <repository>
-            <id>mvn-repo</id>
-            <url>http://maven.ansj.org/</url>
-        </repository>
-    </repositories>
-    ....
-</project>
-````
+2.  进入ansj_seg目录，使用maven安装项目：
 
+```
+mvn clean install -Dmaven.test.skip=true
+```
 
-* 在dependencies标签中粘贴如下:(其实version 以最新的为标准.)
+3.  在dependencies标签中粘贴如下:(其实version 以最新的为标准.)
 
 ````
     <dependencies>
@@ -51,7 +46,7 @@ Ansj中文分词
         <dependency>
             <groupId>org.ansj</groupId>
             <artifactId>ansj_seg</artifactId>
-            <version>1.41</version>
+            <version>1.4.1</version>
         </dependency>
         ....
     </dependencies>
