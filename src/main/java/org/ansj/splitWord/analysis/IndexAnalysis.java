@@ -53,12 +53,17 @@ public class IndexAnalysis extends Analysis {
 				}
 
 				// 用户自定义词典的识别
-				new UserDefineRecognition(graph.terms, forests).recognition();
-				graph.rmLittlePath();
-				graph.walkPathByScore();
+				userDefineRecognition(graph, forests);
 
 				return result();
 			}
+
+			private void userDefineRecognition(final Graph graph, Forest... forests) {
+				new UserDefineRecognition(graph.terms, forests).recognition();
+				graph.rmLittlePath();
+				graph.walkPathByScore();
+			}
+
 
 			/**
 			 * 检索的分词
