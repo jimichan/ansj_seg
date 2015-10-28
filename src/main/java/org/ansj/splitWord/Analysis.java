@@ -229,16 +229,19 @@ public abstract class Analysis {
 	public void resetContent(AnsjReader br) {
 		this.offe = 0;
 		this.br = br;
+		this.terms = new LinkedList<Term>();
 	}
 
 	public void resetContent(Reader reader) {
 		this.offe = 0;
 		this.br = new AnsjReader(reader);
+		this.terms = new LinkedList<Term>();
 	}
 
 	public void resetContent(Reader reader, int buffer) {
 		this.offe = 0;
 		this.br = new AnsjReader(reader, buffer);
+		this.terms = new LinkedList<Term>();
 	}
 
 	public Forest getAmbiguityForest() {

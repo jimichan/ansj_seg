@@ -271,15 +271,14 @@ public class MyStaticValue {
 	 * 
 	 * @return
 	 */
-	public static SplitWord getCRFSplitWord() {
+	public static synchronized SplitWord getCRFSplitWord() {
 		if (crfSplitWord != null) {
 			return crfSplitWord;
 		}
-		LOCK.lock();
+//		LOCK.lock();
 		if (crfSplitWord != null || StringUtil.isBlank(crfModel)) {
 			return crfSplitWord;
 		}
-
 		try {
 			long start = System.currentTimeMillis();
 			LIBRARYLOG.info("begin init crf model!");
@@ -288,7 +287,7 @@ public class MyStaticValue {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			LOCK.unlock();
+//			LOCK.unlock();
 		}
 
 		return crfSplitWord;

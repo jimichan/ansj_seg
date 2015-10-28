@@ -29,7 +29,7 @@ public class IndexAnalysisTest {
 //
 	//	UserDefineLibrary.insertWord("面包新语", "n", 1000);
 		
-		System.out.println(IndexAnalysis.parse("中华人民共和国"));
+		System.out.println(IndexAnalysis.parse("各镇人民政府、街道办事处，各有关单位："));
 
 //		System.out.println(IndexAnalysis.parse("季德胜蛇药片"));
 //		
